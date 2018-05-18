@@ -1,5 +1,6 @@
 ####
-# Utility functions for 
+# 
+# Written by Lewis Kim.
 ####
 
 import tweepy
@@ -22,7 +23,7 @@ def get_twitter_data(username = "realDonaldTrump"):
 	return api.user_timeline(screen_name = username, count = 200)
 
 """Return a pandas dataframe with its columns as tweet text, retweet count, and tweet time,
-   
+   tweet location, hour (see line ), 
    indexed by tweet id. The data for the columns comes from get_twitter_data()."""
 def create_tweet_df(tweets):
 
@@ -31,6 +32,37 @@ def create_tweet_df(tweets):
 
 	# Add columns of twitter data to df.
 	df['id'] = [tweet.id for tweet in tweets]
-	df['text'] = [tweet.full_text for tweet in tweets]
+	df['text'] = [tweet.text for tweet in tweets]  # Some entries may be missing (see line ).
+	df['retweet_count'] = [tweet.retweet_count for tweet in tweets]
 	df['time'] = [tweet.created_at for tweet in tweets]
-	df['']
+	df['location'] = [tweet.location for tweet in tweets]
+
+	df = df.set_index('id')
+
+	# Some tweets store their text in full_text as opposed to text.
+	# Check if a tweet has full_text. If so, append it to a temporary DF and fill the missing
+	# values in df['text'] with them.
+	fullTexts = []
+	ids = []
+
+	for tweet in tweets:
+		if 'full_text' in tweet:
+			fullTexts.append(tweet['full_text'])
+			ids.append(tweet['id'])
+
+	tempDF = pd.DataFrame({'id': ids, 'text': fullTexts})
+	tempDF = tempDF.set_index('id')
+
+	df['text'] = df['text'].fillna(tempDF['text'])
+	df.sort_index(inplace = True)
+
+	# Create a new column called 
+
+
+
+
+
+
+
+
+
