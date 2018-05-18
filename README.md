@@ -8,7 +8,6 @@ In Progress.
 ### Installation
 
 In Progress.
-
 required packages:
 - 
 - ``tweepy`` (pip install: ``pip3 install tweepy``)
