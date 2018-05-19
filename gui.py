@@ -19,6 +19,7 @@ import numpy as np
 from pandastable import Table, TableModel
 
 import tweets
+import analysis
 
 
 # GUI class for Sentweetment.
@@ -75,47 +76,62 @@ class MainPage:
 			showerror("Error", "Please select a twitter user.")
 			return
 
-
 		# Check if tweepy is able to retrieve any data on the selected user.
-		# try:
-		# 	data = tweets.get_twitter_data(self.userEntry.get())
+		try:
+			data = tweets.get_twitter_data(self.userEntry.get())
 
-		# except:
-		# 	showerror("Error", "Tweepy Error. Please check if that Twitter username exists.")
+		except:
+			showerror("Error", "Tweepy Error. Please check if that Twitter username exists.")
+			return
 
 		window = Toplevel()
 
+		# Get the tweepy data of USERNAME as a pandas dataframe.
+		self.userdata = tweets.create_tweet_df(tweets.get_twitter_data(username))
 
+		# Get the average polarity score and sentiment of USERNAME's Twitter account.
+		self.polarity_score = round(analysis.calculate_avg_polarity(self.userdata['polarity']), 2)
+		self.sentiment = analysis.get_sentiment(self.polarity_score)
 
-		#sentiment = utils.get_sentiment(score)
-
-		#
-		self.selectedUserLabel = Label(window, text = "Selected User: @" + username, font = ("system", 16))
+		# A label that displays the selected user.
+		self.selectedUserLabel = Label(window, text = "Selected User: @" + username, font = ("system", 14))
 		self.selectedUserLabel.pack()
 
-		# 
-		self.polarityScoreLabel = Label(window, text = "Overall Polarity Score: ", font = ("system", 14))
+		# A label that displays the selected user's average polarity score.
+		self.polarityScoreLabel = Label(window, text = "Overall Polarity Score: " + str(self.polarity_score), font = ("system", 14))
 		self.polarityScoreLabel.pack()
 
-		# 
-		self.sentimentLabel = Label(window, text = "@" + username + "'s Twitter account is ", font = ("system", 14))
+		# A label that displays the selected user's account sentiment.
+		self.sentimentLabel = Label(window, text = "@" + username + "'s Twitter account is " + self.sentiment, font = ("system", 14))
 		self.sentimentLabel.pack()
+
+		# A button that displays an explanation of the polarity score and sentiment.
+		self.explainButton = Button(window, text = "What does the polarity score and sentiment mean?", font = ("system", 14))
+		self.explainButton.pack()
+
+		# A button that displays the top 10 most positive tweets by the selected user.
+		self.posTweetsButton = Button(window, text = "Display @" + username + "'s Top 10 Most Positive Tweets", font = ("system", 14),
+		                              command = lambda: analysis.get_positive_tweets(self.userdata))
+		self.posTweetsButton.pack()
+
+		# A button that displays the top 10 most negative tweets by the selected user.
+		self.negTweetsButton = Button(window, text = "Display @" + username + "'s Top 10 Most Negative Tweets", font = ("system", 14),
+			                          command = lambda: analysis.get_negative_tweets(self.userdata))
+		self.negTweetsButton.pack()
 
 
 
 
 	def test(self):
-		print(self.df1.isnull().values.any())
-		print(self.df2.isnull().values.any())
+		a1 = analysis.calculate_avg_polarity(self.df1['polarity'])
+		a2 = analysis.calculate_avg_polarity(self.df2['polarity'])
 
-		print(len(self.df1))
-		print(len(self.df2))
+		print("katy " + str(round(a1, 2)))
+		print("ucb " + str(round(a2, 2)))
 
-		print(list(self.df1))
-		print(list(self.df2))
+		print("katy " + analysis.get_sentiment(a1))
+		print("ucb " + analysis.get_sentiment(a2))
 
-		print(self.df1['polarity'].tolist())
-		print(self.df2['polarity'].tolist())
 
 
 # Run the application.

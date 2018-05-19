@@ -20,7 +20,6 @@ sent = sent.set_index('token', drop = True)
 
 # Twitter API Credentials
 
-
 """Return the list of tweepy's Status objects (from user_timeline()) for the given USERNAME."""
 def get_twitter_data(username):
 
@@ -92,15 +91,4 @@ def create_tweet_df(tweets):
 	df['polarity'] = pol['polarity'].tolist()
 
 	return df
-
-# create_tweet_df(get_twitter_data('realDonaldTrump'))
-
-# #print(tidy_format.isnull().values.any())
-# df1 = create_tweet_df(get_twitter_data('katyperry'))
-# df2 = create_tweet_df(get_twitter_data('UCBerkeley'))
-# df3 = create_tweet_df(get_twitter_data('realDonaldTrump'))
-
-# df1.to_pickle('data/katyperry.gz')
-# df2.to_pickle('data/ucb.gz')
-# df3.to_pickle('data/trump.gz')
 
