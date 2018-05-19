@@ -19,10 +19,7 @@ sent = sent.rename(columns = {0: 'token', 1: 'polarity'})
 sent = sent.set_index('token', drop = True)
 
 # Twitter API Credentials
-consumer_key = "3daaCRqE9kbiVSxxNjmmx1iGp"
-consumer_secret = "nqaBQPe54hx7sJeFtVWTK8QyhBo5J75nVlqFERQ6SaMFerBb3d"
-access_token = "967529922724966400-AtEXEfM4mxxkhfBtDshgh8eV8ZTimDI"
-access_secret = "CT9biXzWYloFVpTsaYVvfwbGpHHGQo0arS4dnhK7Wo1wA"
+
 
 """Return the list of tweepy's Status objects (from user_timeline()) for the given USERNAME."""
 def get_twitter_data(username):
