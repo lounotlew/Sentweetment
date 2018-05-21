@@ -1,0 +1,28 @@
+- What do the polarity scores and sentiment mean? -
+
+Polarity: These polarity scores are based on the VADER Lexicon for sentiment
+analysis of texts, which can be found here: 
+
+Essentially, by using VADER's rating of how "positive" or "negative" certain words
+and emojis are. We then apply the lexicon to each tweet downloaded by tweepy, which
+gives us polarities of each words used in a tweet, and by summing up all those values,
+we get a polarity score for each tweet.
+
+A low polarity score does not necessarily mean that tweet is divisive or full of negativity (though it could be); it simply means that the words used in that tweet are deemed to be negative by the VADER Lexicon.
+
+Sentiment: By calculating the average polarity score for all of the selected
+user's tweets, we usually get some value between -4 and 4. We then convert the
+average polarity score to a sentiment by using the following scale:
+
+Less than -4: extremely negative
+Between -4 and -3: very negative
+Between -3 and -2: fairly negative
+Between -2 and -1: negative
+Between -1 and -0.1: slightly negative
+Between -0.1 and 0.1: neutral
+Between 0.1 and 1: slightly positive
+Between 1 and 2: positive
+Between 2 and 3: fairly positive
+Between 3 and 4: very positive
+Greater than 4: extremely positive
+

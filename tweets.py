@@ -18,7 +18,11 @@ sent = pd.read_table("data/vader_lexicon.txt", header=None, usecols=[0, 1])
 sent = sent.rename(columns = {0: 'token', 1: 'polarity'})
 sent = sent.set_index('token', drop = True)
 
-# Twitter API Credentials
+# Twitter API Credentials. Enter in your dev. account's API keys/secrets.
+# consumer_key = ""
+# consumer_secret = ""
+# access_token = ""
+# access_secret = ""
 
 """Return the list of tweepy's Status objects (from user_timeline()) for the given USERNAME."""
 def get_twitter_data(username):
@@ -71,8 +75,8 @@ def create_tweet_df(tweets):
 	# 1) num: the location of the word in the tweet.
 	# 2) word: the individual words of each tweet.
 	tempDF = df['no_punc'].str.split(expand = True)
-	tempDF2 = pd.DataFrame(tempDF.stack(), columns = ['word'])
 
+	tempDF2 = pd.DataFrame(tempDF.stack(), columns = ['word'])
 	tempDF2.reset_index(inplace = True)
 
 	tidy_format = tempDF2.rename(columns = {'id': 'id', 'level_1': 'num', 'word': 'word'})
@@ -83,12 +87,15 @@ def create_tweet_df(tweets):
 	tf2 = tidy_format.reset_index()
 	words = sent.reset_index().rename(columns = {'token': 'word'})
 
-	tempPol = pd.merge(tf2, words, how = 'outer', on = 'word')
+	tempPol = pd.merge(tf2, words, how = 'left', on = 'word')
 
 	pol = tempPol.groupby('id').sum()
 	pol.drop('num', axis = 1, inplace = True)
 
-	df['polarity'] = pol['polarity'].tolist()
+	df['polarity'] = pol['polarity']
+
+	# Filter out the retweets.
+	# df = df[df['text'].str[0:2] != 'rt']
 
 	return df
 

@@ -56,18 +56,34 @@ def get_sentiment(score):
 	elif score > 4:
 		return "extremely positive."
 
-"""Return the top 10 most positive tweets from the selected user's Twitter DATA."""
+"""Return a list of tuples of top 10 most positive tweets and their dates, from the
+   selected user's Twitter DATA."""
 def get_positive_tweets(data):
-	print("success!")
+	
+	# Sort 'polarity' values in descending order.
+	df = data.sort_values('polarity', ascending = False)
+
+	tweets = df['text'].tolist()[0:10]
+	dates = df['time'].tolist()[0:10]
+	polarities = [round(x, 2) for x in df['polarity'].tolist()[0:10]]
+
+	pos_tweets = [(x, y, z) for x, y, z in zip(tweets, dates, polarities)]
+
+	return pos_tweets
 
 
-
-"""Return the top 10 most negative tweets from the selected user's Twitter DATA."""
+"""Return a list of tuples of top 10 most negative tweets and their dates, from the
+   selected user's Twitter DATA."""
 def get_negative_tweets(data):
-	print("success!")
 
+	# Sort 'polarity' values in ascending order.
+	df = data.sort_values('polarity', ascending = True)
 
+	tweets = df['text'].tolist()[0:10]
+	dates = df['time'].tolist()[0:10]
+	polarities = [round(x, 2) for x in df['polarity'].tolist()[0:10]]
 
+	neg_tweets = [(x, y, z) for x, y, z in zip(tweets, dates, polarities)]
 
-
+	return neg_tweets
 
