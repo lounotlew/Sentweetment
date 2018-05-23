@@ -3,7 +3,7 @@
 
 ### Description
 
-Sentweetment is a tweet sentiment analyzer for a selected twitter user, based on the 'Donald Trump Tweet Analysis' project I completed in UC Berkeley's Data Science 100. Using the VADER Lexicon (https://github.com/cjhutto/vaderSentiment), Sentweetment analyzes the polarity of the words in any given user's tweets (given they have enough tweets, with a max. of latest 200 tweets), and explores the general sentiment and mood of that user's twitter account. Sentweetment also offers the option of visualizing this analysis, such as showing which top 10 tweets are the most/least positive/negative, displaying a tweet polarity vs. time trend graph, and tweet polarity histogram.
+Sentweetment is a Twitter account sentiment analyzer for a selected twitter user, based on the 'Donald Trump Tweet Analysis' project I completed in UC Berkeley's Data Science 100. Using the VADER Lexicon (https://github.com/cjhutto/vaderSentiment), Sentweetment analyzes the polarity of the words in any given user's tweets (given they have enough tweets, with a max. of latest 200 tweets), and explores the general sentiment and mood of that user's twitter account. Sentweetment also offers the option of visualizing this analysis, such as showing which top 10 tweets are the most/least positive/negative, displaying a tweet polarity vs. time trend graph, and tweet polarity histogram.
 
 For a GUI sample and applet walkthrough, click this [link](gui_sample/README.md).
 
